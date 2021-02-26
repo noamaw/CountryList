@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CountryList</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="native_name">Native Name</string>
+    <string name="english_name">English Name</string>
+    <string name="area">Area</string>
+    <string name="descending">-</string>
+    <string name="ascending">+</string>
+    <string name="borders_of_headline">Borders of</string>
+</resources>

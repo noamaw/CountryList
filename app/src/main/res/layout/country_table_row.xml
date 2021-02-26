@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:divider="@color/colorPrimary"
+    android:showDividers="middle">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/native_country_name"
+        android:layout_column="1"
+        android:text="@string/native_name"
+        android:padding="3dip" />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/english_country_name"
+        android:layout_column="2"
+        android:text="@string/english_name"
+        android:padding="3dip" />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/area_country"
+        android:layout_column="3"
+        android:text="@string/area"
+        android:padding="3dip" />
+</TableRow>
