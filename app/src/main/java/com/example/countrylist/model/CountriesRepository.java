@@ -48,11 +48,10 @@ public class CountriesRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(CountrySearchService.class);
-
     }
 
     public void searchForCountries() {
-        networkRunnable = () -> searchAllCountries();
+        networkRunnable = this::searchAllCountries;
         networkRunnable.run();
     }
 
@@ -72,11 +71,9 @@ public class CountriesRepository {
                 .enqueue(new Callback<Country[]>() {
                     @Override
                     public void onResponse(Call<Country[]> call, Response<Country[]> response) {
-                        Log.d(TAG, "onResponse: returned a response: "+ response);
                         if (response.isSuccessful()) {
                             Country[] countries = response.body();
                             countryResponseMutableLiveData.postValue(Arrays.asList(countries));
-                            Log.d(TAG, "onResponse: returned a response: "+ response.body());
                         }
                     }
 
@@ -93,7 +90,6 @@ public class CountriesRepository {
                 .enqueue(new Callback<Country>() {
                     @Override
                     public void onResponse(Call<Country> call, Response<Country> response) {
-                        Log.d(TAG, "onResponse: returned a response: "+ response);
                         if (response.body() != null) {
                             borderCountries.add(response.body());
                             if (borderCountries.size() == amountOfExpectedBorders) {

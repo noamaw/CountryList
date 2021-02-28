@@ -20,7 +20,7 @@ public class Country implements Parcelable {
 
         @SerializedName("borders")
         @Expose
-        List<String> borders = null;
+        List<String> borders;
 
         @SerializedName("area")
         @Expose

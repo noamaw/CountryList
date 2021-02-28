@@ -1,6 +1,7 @@
 package com.example.countrylist.viewModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.countrylist.model.CountriesRepository;
 import com.example.countrylist.model.Country;
@@ -16,12 +17,14 @@ public class CountryViewModel extends AndroidViewModel {
     private LiveData<List<Country>> countryResponseLiveData;
     private LiveData<List<Country>> countryBordersResponseLiveData;
     private LiveData<Integer> countryListSortState;
+    private final String TAG = "CountryViewModel";
 
     public CountryViewModel(@NonNull Application application) {
         super(application);
     }
 
     public void init() {
+        Log.d(TAG, "init: initializing the viewModel instance");
         countriesRepository = new CountriesRepository();
         countryResponseLiveData = countriesRepository.getCountryResponseLiveData();
         countryListSortState = countriesRepository.getCountriesSortState();

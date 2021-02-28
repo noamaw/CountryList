@@ -77,6 +77,7 @@ public class CountryListFragment extends Fragment {
             addListOfCountriesToTable(countryArrayList);
             headline.setText(String.format("%s %s", getString(R.string.borders_of_headline), countryToWhomBorders));
             headline.setVisibility(View.VISIBLE);
+            setSortingHeaderView();
         } else {
             viewModel.searchAllCountries();
         }
@@ -105,7 +106,7 @@ public class CountryListFragment extends Fragment {
     private void openNewFragmentShowingBorders(List<Country> countries) {
         CountryListFragment nextFrag= newInstance(countries, requestedCountryBorders);
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .replace(((ViewGroup)rootView.getParent()).getId(), nextFrag, "findThisFragment")
+                .replace(((ViewGroup)rootView.getParent()).getId(), nextFrag, "borderFragment")
                 .addToBackStack(null)
                 .commit();
     }
@@ -120,12 +121,8 @@ public class CountryListFragment extends Fragment {
 
     private void setHeader() {
         headerRow.setBackgroundColor(getResources().getColor(R.color.teal_700, null));
-        headerRow.findViewById(R.id.english_country_name).setOnClickListener(view -> {
-            sortingStateEnglishName();
-        });
-        headerRow.findViewById(R.id.area_country).setOnClickListener(view -> {
-            sortingStateArea();
-        });
+        headerRow.findViewById(R.id.english_country_name).setOnClickListener(view -> sortingStateEnglishName());
+        headerRow.findViewById(R.id.area_country).setOnClickListener(view -> sortingStateArea());
     }
 
     private void sortingStateEnglishName() {
