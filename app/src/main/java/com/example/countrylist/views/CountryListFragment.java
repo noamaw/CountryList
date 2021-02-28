@@ -37,6 +37,7 @@ public class CountryListFragment extends Fragment {
     private CountryViewModel viewModel;
     private TableRow headerRow;
     private TextView headline;
+    private int sortingState;
 
     public CountryListFragment() {
         // Required empty public constructor
@@ -72,6 +73,7 @@ public class CountryListFragment extends Fragment {
 
         if (countryArrayList != null) {
             countryArrayList.sort(Country.englishNameAscendingComparator);
+            sortingState = Const.SORTED_ASCENDING_ENGLISH_NAME;
             addListOfCountriesToTable(countryArrayList);
             headline.setText(String.format("%s %s", getString(R.string.borders_of_headline), countryToWhomBorders));
             headline.setVisibility(View.VISIBLE);
@@ -93,7 +95,8 @@ public class CountryListFragment extends Fragment {
                 });
         viewModel.getCountryListSortState().observe(getViewLifecycleOwner(), integer -> {
             if (integer != null) {
-                setSortingHeader(integer);
+                sortingState = integer;
+                setSortingHeaderView();
             }
         });
         viewModel.getCountryBordersResponseLiveData().observe(getViewLifecycleOwner(), this::openNewFragmentShowingBorders);
@@ -118,17 +121,24 @@ public class CountryListFragment extends Fragment {
     private void setHeader() {
         headerRow.setBackgroundColor(getResources().getColor(R.color.teal_700, null));
         headerRow.findViewById(R.id.english_country_name).setOnClickListener(view -> {
-            viewModel.sortCountriesByEnglishName();
+            sortingStateEnglishName();
         });
         headerRow.findViewById(R.id.area_country).setOnClickListener(view -> {
-            viewModel.sortCountriesByArea();
+            sortingStateArea();
         });
     }
 
     private void sortingStateEnglishName() {
         if (countryArrayList != null) {
-            countryArrayList.sort(Country.englishNameAscendingComparator);
-            countryArrayList.sort(Country.englishNameAscendingComparator);
+            if (sortingState != Const.SORTED_ASCENDING_ENGLISH_NAME) {
+                countryArrayList.sort(Country.englishNameAscendingComparator);
+                sortingState = Const.SORTED_ASCENDING_ENGLISH_NAME;
+            } else {
+                countryArrayList.sort(Country.englishNameDescendingComparator);
+                sortingState = Const.SORTED_DESCENDING_ENGLISH_NAME;
+            }
+            addListOfCountriesToTable(countryArrayList);
+            setSortingHeaderView();
         } else {
             viewModel.sortCountriesByEnglishName();
         }
@@ -136,16 +146,24 @@ public class CountryListFragment extends Fragment {
 
     private void sortingStateArea() {
         if (countryArrayList != null) {
-
+            if (sortingState != Const.SORTED_ASCENDING_AREA) {
+                countryArrayList.sort(Country.areaAscendingComparator);
+                sortingState = Const.SORTED_ASCENDING_AREA;
+            } else {
+                countryArrayList.sort(Country.areaDescendingComparator);
+                sortingState = Const.SORTED_DESCENDING_AREA;
+            }
+            addListOfCountriesToTable(countryArrayList);
+            setSortingHeaderView();
         } else {
             viewModel.sortCountriesByArea();
         }
     }
 
-    private void setSortingHeader(int sortingHeader) {
+    private void setSortingHeaderView() {
         String englishNameTxt = getString(R.string.english_name);
         String areaTxt = getString(R.string.area);
-        switch (sortingHeader) {
+        switch (sortingState) {
             case Const.SORTED_ASCENDING_ENGLISH_NAME:
                 englishNameTxt = String.format("%s %s", getString(R.string.english_name), getString(R.string.ascending));
                 areaTxt = getString(R.string.area);
